@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>todo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/1.0.10/purify.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <script src="main.js"></script>
+</head>
+<body onload="LoadPage()" class="w3-white">
+    <header class="gradient-text w3-center"> todo </header>
+    <div class="fas fa-save gradient-hover-text w3-button w3-round-medium w3-hover-none" style="position: absolute; top: 15px; right: 15px; font-size: 2em;" onclick="SaveList()"></div>
+    <div class="w3-card-4 w3-padding-16 w3-white" style="max-width: 35em; width: 90%; margin: auto; padding-top: 0 !important;">
+        <ul class="w3-ul" id="todo-list">
+            <!-- list will be generated here here -->
+        </ul>
+        <hr/>
+        <div id="invalid-submission-alert" class="w3-panel gradient w3-display-container w3-animate-opacity" style="display: none;">
+            <span onclick="this.parentElement.style.display='none'" class="w3-button w3-display-topright fas fa-times"></span>
+            <p>enter an item to add to your list</p>
+        </div>
+        <form class="w3-row-padding w3-center" id="todo-input-form" style="padding: 1em 2em 1em 2em">
+            <input type="text" class="form-control w3-input w3-border w3-round-medium w3-padding w3-col s10" id="todo-input-field" />
+            <button type="submit" class="w3-button w3-round-medium w3-hover-none gradient-hover-text w3-padding fas fa-plus w3-rest" id="todo-submit-button"></button>
+        </form>
+    </div>
+</body>
+</html>
