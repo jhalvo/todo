@@ -15,20 +15,27 @@
 </head>
 <body onload="LoadPage()" class="w3-white">
     <header class="gradient-text w3-center"> todo </header>
-    <div class="fas fa-save gradient-hover-text w3-button w3-round-medium w3-hover-none" style="position: absolute; top: 15px; right: 15px; font-size: 2em;" onclick="SaveList()"></div>
-    <div class="w3-card-4 w3-padding-16 w3-white" style="max-width: 35em; width: 90%; margin: auto; padding-top: 0 !important;">
-        <ul class="w3-ul" id="todo-list">
-            <!-- list will be generated here here -->
-        </ul>
-        <hr/>
-        <div id="invalid-submission-alert" class="w3-panel gradient w3-display-container w3-animate-opacity" style="display: none;">
-            <span onclick="this.parentElement.style.display='none'" class="w3-button w3-display-topright fas fa-times"></span>
-            <p>enter an item to add to your list</p>
+    <div class="w3-round-medium gradient responsive-button-container">
+        <div class="fas fa-cog w3-button w3-hover-none w3-hover-text-white w3-hover-opacity w3-right" id="settings-button"></div>
+        <div class="responsive-button fas fa-save w3-button w3-hover-none w3-hover-text-white w3-hover-opacity" id="save-button"></div>
+        <div class="responsive-button fas fa-check-double w3-button w3-hover-none w3-hover-text-white w3-hover-opacity" id="check-all-button"></div>
+        <div class="responsive-button fas fa-trash w3-button w3-hover-none w3-hover-text-white w3-hover-opacity" id="remove-all-button"></div>
+    </div>
+    <div class="w3-container" style="max-width: 35em; margin: auto;">
+        <div class="w3-card-4 w3-white" style="padding-bottom: 16px;">
+            <ul class="w3-ul" id="todo-list">
+                <!-- list will be generated here here -->
+            </ul>
+            <hr/>
+            <div id="invalid-submission-alert" class="w3-panel gradient w3-display-container w3-animate-opacity" style="display: none;">
+                <span id="invalid-submission-alert-dismiss-button" class="w3-button w3-display-topright fas fa-times"></span>
+                <p>enter an item to add to your list</p>
+            </div>
+            <form class="w3-row-padding w3-center" id="todo-input-form" style="padding: 1em 2em 1em 2em">
+                <input type="text" class="form-control w3-input w3-border w3-round-medium w3-padding w3-col s10" id="todo-input-field" />
+                <button type="submit" class="w3-button w3-round-medium w3-hover-none gradient-hover-text w3-padding fas fa-plus w3-rest" id="todo-submit-button"></button>
+            </form>
         </div>
-        <form class="w3-row-padding w3-center" id="todo-input-form" style="padding: 1em 2em 1em 2em">
-            <input type="text" class="form-control w3-input w3-border w3-round-medium w3-padding w3-col s10" id="todo-input-field" />
-            <button type="submit" class="w3-button w3-round-medium w3-hover-none gradient-hover-text w3-padding fas fa-plus w3-rest" id="todo-submit-button"></button>
-        </form>
     </div>
 </body>
 </html>

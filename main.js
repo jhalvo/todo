@@ -1,14 +1,14 @@
-const LIST_TEMPLATE_ONE = '<li id="';
-const LIST_TEMPLATE_TWO = '" class="w3-display-container"><input class="w3-check" type="checkbox" onClick="UpdateCompletedOnCheck(this)"'
-const LIST_TEMPLATE_THREE = '><span class="list-item-content" style="padding-left: 16px;">';
-const LIST_TEMPLATE_FOUR = '</span><span class="w3-button w3-display-right list-item-close-button gradient-hover-text fas fa-times" onClick="RemoveTODOItem(this.parentElement)"></span> </li>';
-
 var todoList = [];
 
 // --------------------------------------------------------------------------------------------- //
 
 function LoadPage() {
     document.getElementById('todo-input-form').addEventListener('submit', e => {e.preventDefault(); SubmitClick();}, false);
+    document.getElementById('save-button').addEventListener('click', e => {SaveList();});
+    document.getElementById('invalid-submission-alert-dismiss-button').addEventListener('click', e => {e.target.parentElement.style.display = 'none';});
+    document.getElementById('settings-button').addEventListener('click', e => {e.target.parentElement.classList.toggle('responsive-button-container-active');});
+    document.getElementById('remove-all-button').addEventListener('click', () => {RemoveAll();});
+    document.getElementById('check-all-button').addEventListener('click', () => {CheckAll();});
     LoadList();
 }
 function LoadList() {
@@ -21,6 +21,10 @@ function LoadList() {
 }
 function SaveList() {
     localStorage.setItem('todoList', JSON.stringify(todoList));
+    window.onbeforeunload = null;
+}
+function SavePrompt() {
+    window.onbeforeunload = () => true;
 }
 
 // --------------------------------------------------------------------------------------------- //
@@ -33,6 +37,7 @@ function CreateTODOItem() {
     }
     todoList.push(newItem);
     DisplayTODOItem(newItem);
+    SavePrompt();
 }
 function RemoveTODOItem(listItem) {
     for (var i = 0; i < todoList.length; i++) {
@@ -42,6 +47,7 @@ function RemoveTODOItem(listItem) {
         }
     }
     listItem.parentNode.removeChild(listItem);
+    SavePrompt();
 }
 
 // --------------------------------------------------------------------------------------------- //
@@ -57,20 +63,56 @@ function SubmitClick() {
         document.getElementById('invalid-submission-alert').style.display='block';
     }
 }
-function DisplayTODOItem(newItem) {
-    var boxIsChecked = '';
-    if (newItem.completed) boxIsChecked = 'checked';
-    document.getElementById('todo-list').innerHTML  += LIST_TEMPLATE_ONE + newItem.id.toString()
-                                                    +  LIST_TEMPLATE_TWO + boxIsChecked
-                                                    +  LIST_TEMPLATE_THREE + newItem.content.toString()
-                                                    +  LIST_TEMPLATE_FOUR;
+function DisplayTODOItem(newItemObject) {
+    var listItem = document.createElement('li');
+    listItem.classList.add('w3-display-container', 'list-item');
+    listItem.id = newItemObject.id;
+
+    var listItemButton = document.createElement('input');
+    listItemButton.type = 'checkbox';
+    listItemButton.classList.add('w3-check');
+    listItemButton.addEventListener('click', e => {UpdateCompletedOnCheck(e.target);});
+    listItemButton.checked = newItemObject.completed;
+    listItem.appendChild(listItemButton);
+
+    var ListItemContent = document.createElement('span');
+    ListItemContent.classList.add('list-item-content');
+    ListItemContent.innerText = newItemObject.content;
+    listItem.appendChild(ListItemContent);
+
+    var ListItemRemoveButton = document.createElement('span');
+    ListItemRemoveButton.classList.add('w3-button', 'w3-display-right', 'list-item-close-button', 'gradient-hover-text', 'fas', 'fa-times');
+    ListItemRemoveButton.addEventListener('click', e => {RemoveTODOItem(e.target.parentElement);});
+    listItem.appendChild(ListItemRemoveButton);
+
+    document.getElementById('todo-list').appendChild(listItem);
 }
+
 function UpdateCompletedOnCheck(completedCheckBox) {
     listItem = completedCheckBox.parentElement;
     for (var i = 0; i < todoList.length; i++) {
         if (listItem && listItem.id && todoList[i].id === listItem.id) {
             todoList[i].completed = completedCheckBox.checked;
+            SavePrompt();
             break;
+        }
+    }
+}
+function RemoveAll() {
+    var items = document.getElementsByClassName('list-item');
+    while (items[0]) RemoveTODOItem(items[0]);
+}
+function CheckAll() {
+    var uncheckAll = true;
+    for (var i = 0; i < todoList.length; i++) {
+        if(!todoList[i].completed) {
+            uncheckAll = false;
+            document.getElementById(todoList[i].id).firstChild.click();
+        }
+    }
+    if(uncheckAll){
+        for (var i = 0; i < todoList.length; i++) {
+            document.getElementById(todoList[i].id).firstChild.click();
         }
     }
 }
